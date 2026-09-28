@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# SLOW gate. Runs once, before code leaves your machine — the right place for
+# the things that are too slow to run on every commit.
+
+npm run verify

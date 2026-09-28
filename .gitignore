@@ -1,0 +1,23 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+
+chapters/*/node_modules
+
+.claude/worktrees/
+.claude/settings.local.json
+
+# Secrets. .env.example is the only env file that belongs in git.
+.env
+.env.*
+!.env.example
+
+# The verifier writes throwaway probes here; the evidence lives in verdict.md.
+graph/probes/
+
+# The live working set of a run — overwritten by the next one. The committed
+# record is graph/runs/<NNN>-<slug>/, and the plan is docs/plans/<NNN>-<slug>.md.
+graph/artifacts/*
+!graph/artifacts/.gitkeep

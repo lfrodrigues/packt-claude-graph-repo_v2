@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+
+# A worktree is a full copy of the repo; formatting it from the main checkout
+# would check every lane's files twice and fail on anything mid-run.
+.claude/worktrees/

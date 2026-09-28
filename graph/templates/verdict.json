@@ -1,0 +1,6 @@
+{
+  "feature": "<feature>",
+  "pass": false,
+  "criteria": [{ "id": "AC1", "status": "pass | fail", "evidence": "test name or probe output" }],
+  "failed_criteria": ["AC6"]
+}

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# PostToolUse (Edit|Write): format the edited file with prettier. Never blocks.
+set -u
+
+command -v jq >/dev/null 2>&1 || exit 0
+file_path=$(jq -r '.tool_input.file_path // empty' 2>/dev/null) || exit 0
+[ -n "$file_path" ] && [ -f "$file_path" ] || exit 0
+
+case "$file_path" in
+  *.ts|*.json|*.md) ;;
+  *) exit 0 ;;
+esac
+case "$file_path" in
+  */node_modules/*|*/package-lock.json) exit 0 ;;
+esac
+
+cd "$(dirname "$0")/../.." || exit 0
+npx prettier --write --log-level warn "$file_path" >/dev/null 2>&1 || true
+exit 0

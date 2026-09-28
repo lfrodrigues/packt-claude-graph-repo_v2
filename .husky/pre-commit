@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# FAST gate. Runs on every commit, so it must stay quick — a gate slow enough to
+# be annoying gets bypassed with --no-verify, and a bypassed gate is worse than
+# no gate because it sells false confidence. The full suite runs on pre-push.
+
+# 1. Lint + format, only on what you actually touched.
+npx lint-staged
+
+# 2. Types. Cheap, and catches the class of mistake that strict mode exists for.
+npm run typecheck

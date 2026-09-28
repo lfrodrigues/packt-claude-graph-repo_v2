@@ -1,0 +1,46 @@
+{
+  "name": "orders-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm test",
+    "demo:reset": "bash scripts/demo-reset.sh",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "zod": "^4.1.0",
+    "@sentry/node": "^10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.0",
+    "@types/supertest": "^6.0.3",
+    "eslint": "^9.30.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.0",
+    "supertest": "^7.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.35.0",
+    "vitest": "^3.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "husky@9.1.7": true
+  }
+}
