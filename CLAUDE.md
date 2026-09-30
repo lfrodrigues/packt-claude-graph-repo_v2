@@ -37,9 +37,9 @@ this. Tests hit the app factory directly (`createApp()`), no server needed.
 - `src/app.ts` — factory. `src/store.ts` — in-memory data with `reset()`.
 - `src/routes/` — one router per resource. `src/schemas.ts` — zod schemas.
 - `tests/` — vitest + supertest, one file per resource.
-- `docs/specs/` — the contract, copied in by **you** — `/graph-plan` stops and asks;
-  it cannot write here.
-  **Read-only for agents after that.**
+- `docs/specs/` — the contract, committed to this repo by a human. It must be
+  committed: every node runs in a worktree, and a worktree is a checkout of a
+  ref. **Read-only for agents:** an edit is blocked, and the hook says why.
 - `docs/plans/` — the plan behind every change, whether `/plan` or the graph's
   planner node wrote it. See "Plans" below.
 - `graph/` — the agent graph: the four phase scripts, node templates, and

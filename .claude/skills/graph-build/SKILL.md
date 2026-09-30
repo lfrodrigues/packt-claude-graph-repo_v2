@@ -38,7 +38,7 @@ Glob `docs/plans/*-<slug>.md`. The exact `-<slug>.md` suffix is what keeps
 `orders` and `orders-unattended` from matching each other.
 
 - **Exactly one match** → the stem is its basename without `.md`
-  (e.g. `001-orders`). The plan is `docs/plans/<stem>.md`; the run's record will
+  (e.g. `002-orders`). The plan is `docs/plans/<stem>.md`; the run's record will
   go to `graph/runs/<stem>/`.
 - **No match** → **STOP.** `/graph-plan <slug>` has not run, or ran somewhere
   else. There is no plan to build against.
@@ -86,7 +86,7 @@ directory if needed. Not `plan.md`: the plan is already committed at
 Tell me what the run's single commit will contain, and print it:
 
 ```bash
-git add -A        # src/, tests/, docs/specs/<slug>.md, docs/plans/<stem>.md, graph/runs/<stem>/
+git add -A        # src/, tests/, docs/plans/<stem>.md, graph/runs/<stem>/
 git commit        # trailer required: Plan: docs/plans/<stem>.md
 ```
 
@@ -94,9 +94,8 @@ git commit        # trailer required: Plan: docs/plans/<stem>.md
 overwritten by the next run. What lands is the record in `graph/runs/<stem>/`
 and the plan it is named after, so the commit carries a matched pair.
 
-The spec is in that commit on purpose. A human copied it into this lane, and it
-belongs with the code it describes — merging the branch is what finally puts
-both into `main`'s history, together, in one reviewable change.
+The spec is not in that commit: it was already committed before the run began,
+which is what made it visible inside this worktree at all.
 
 The `commit-msg` hook rejects a commit with no `Plan:` trailer, and rejects a
 trailer pointing at a file that does not exist. `docs/plans/<stem>.md` is where

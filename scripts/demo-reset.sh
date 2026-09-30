@@ -28,7 +28,11 @@ for wt in $paths; do
   elif git worktree remove -f -f "$wt" 2>/dev/null; then
     echo "  removed $wt (was locked)"
   else
-    echo "  COULD NOT REMOVE $wt — is a session still running in it?"
+    # Not a lock: -f -f overrides those. This is a stale entry (the directory
+    # is already gone) or a path git can't read.
+    echo "  COULD NOT REMOVE $wt"
+    echo "    Usually a stale entry — the 'git worktree prune' below clears those."
+    echo "    If it survives the prune, the path is unreadable; check it by hand."
   fi
 done
 git worktree prune

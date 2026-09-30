@@ -1,11 +1,11 @@
 # The engineering graph
 
-Four nodes, four artifacts, two human gates, one bounded loop.
+Four nodes, five artifacts, two human gates, one bounded loop.
 
 ```
 spec → planner → ⬡ gate 1
                     │
-      implementer  ∥  tester        ← one worktree, the run's
+      implementer  ∥  tester        ← one worktree for the whole run
                     │
                  verifier → pass?
                             ├── yes → ⬡ gate 2 → merge
@@ -128,7 +128,7 @@ thin deterministic shell, and everything that has to survive lives on disk.
 ## Artifacts
 
 `artifacts/` holds what the nodes write — `implementation.md`,
-`test-report.md`, `decision-log.md`, `verdict.json`. They are the edges of the
+`test-report.md`, `decision-log.md`, `verdict.json`, `verdict.md`. They are the edges of the
 graph: what travels between nodes, rather than a conversation one node can
 remember and the next cannot.
 
@@ -145,7 +145,7 @@ Three paths, three jobs:
 | `docs/plans/<NNN>-<slug>.md` | yes              | forever         | the plan — numbered, the commit's trailer |
 
 `artifacts/` is gitignored because its paths are flat: a second feature's run
-overwrites the first's, so it is scratch by construction. Each skill copies its
+overwrites the first's, so it is scratch by construction. `/graph-build` and `/graph-verify` copy their
 finished artifacts into `runs/<NNN>-<slug>/` when the phase completes, and that
 copy is what gets committed. `/graph-all` uses `runs/<NNN>-<slug>-unattended/`,
 so the gated and ungated runs can be diffed against each other.
@@ -154,7 +154,7 @@ so the gated and ungated runs can be diffed against each other.
 this repo keeps every plan, whether `/plan` or the planner node wrote it — so
 there is one home, one format, one trailer shape, and `.claude/rules/plans.md`
 applies to the planner too. The run folder takes the same name as its plan:
-`docs/plans/001-orders.md` pairs with `runs/001-orders/` on sight, and the
+`docs/plans/002-orders.md` pairs with `runs/002-orders/` on sight, and the
 commit trailer says it a second way, which is what makes
 `git log --grep='^Plan:'` resolve to the plan a run actually followed. A run
 folder with **no** number is a `/graph-verify` run on a tree nothing planned.

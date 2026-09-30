@@ -44,41 +44,12 @@ committed mid-run.
    for `origin/main`.)
 3. Run `npm install`. `node_modules/` is gitignored, so a fresh worktree has
    none, and both the tester and the verifier run `npm test`.
-4. **Re-check the spec inside the worktree, and STOP if it is missing.** You
-   resolved it in the previous checkout; a worktree is a checkout of a ref, so
-   an _uncommitted_ spec is not here. If it does not exist now, **stop and ask
-   the human to copy it in.** Do not plan. Do not attempt the copy.
-
-   Print a message of this shape — the explanation is the point, not just the
-   command:
-
-   ```
-   I've opened the worktree, but docs/specs/<slug>.md isn't in it — a worktree is a
-   checkout, and the spec isn't committed.
-
-   I can't copy it in for you. .claude/hooks/guard-bash.sh blocks any write to
-   docs/specs/, and that guard is deliberate: the spec is the contract, written
-   by someone who isn't the agent. An agent that can rewrite its own contract
-   can make any implementation "correct". So this one is yours:
-
-       cp ../../../../specs/<slug>.md docs/specs/<slug>.md
-       # or, absolutely:
-       cp /abs/path/to/specs/<slug>.md /abs/path/to/.claude/worktrees/<slug>/docs/specs/
-
-   Run it and tell me to continue — I'm already in the worktree, so there's no
-   need to re-run /graph-plan.
-   ```
-
-   Requirements on that message:
-
-   - **Give the command both ways**, relative and absolute. The relative form
-     is four levels up from the worktree
-     (`.claude/worktrees/<slug>/` → repo root → course root). **Compute both**
-     from the actual paths; never hard-code the slug or guess the depth.
-   - **Say that you cannot do it, and why.** Name the hook and the reason it
-     exists — not "I'm not allowed". If the human asks you to do it anyway,
-     refuse again and say the guard blocks it regardless of who asks.
-   - **Say how to resume**: run the `cp`, then say continue. Not a re-invocation.
+4. **Confirm the spec is in the worktree.** It is committed, so it is — but a
+   worktree is a checkout of a ref, so check rather than assume. If it is
+   missing, the spec was never committed: **stop and say so.** You cannot copy
+   it in — `guard-bash.sh` blocks any write to `docs/specs/`, deliberately, and
+   that guard holds regardless of who asks. A human commits it, then you resume
+   from step 3.
 
 5. Say what just happened, in one line: the run now has a branch of its own,
    and `main` will not be touched until the merge at gate 2. Note the branch is
@@ -127,14 +98,6 @@ same document under two paths, drifting from the first edit onwards.
 `/graph-build` archives the run's _other_ artifacts to `graph/runs/<stem>/`,
 which is named after this plan.
 
-## Resuming after the spec stop
-
-If you stopped at the spec check and the human has now copied the spec in, **do
-not start over**. The session is already inside the worktree and `npm install`
-has already run. Confirm the spec is there, then go straight to step 3 —
-resolving the stem and running the workflow.
-
 Policy: do NOT write code, do NOT answer the planner's open questions, and do
-NOT commit. The run makes one commit, at the end, after gate 2 — and that
-commit includes the spec, because a human put it there and it belongs with the
-code it describes.
+NOT commit. The run makes one commit, at the end, and a human merges it at
+gate 2.
